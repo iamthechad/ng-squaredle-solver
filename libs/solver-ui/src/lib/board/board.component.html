@@ -1,0 +1,24 @@
+<h1>Squaredle Solver</h1>
+<p>Enter the rows of the board, separated by a hyphen. Eg: <code>abc-def-ghi</code></p>
+
+<p>Missing or faded squares can be represented by an @ symbol. Eg: <code>ab@-def-g@i</code></p>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <mat-form-field appearance="fill">
+    <input matInput formControlName="board" required>
+    <mat-error *ngIf="form.controls.board.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+  <div class="submitButton"><button mat-flat-button color="primary" type="submit">Solve!</button></div>
+
+</form>
+
+<div class="results" *ngIf="boardAnswers">
+  <h3>{{ boardAnswers.answerCount }} words</h3>
+
+  <div *ngFor="let wordSizeResults of boardAnswers.wordSizeResults">
+    <h4>{{ wordSizeResults.wordLength }} letter words ({{ wordSizeResults.words.length }})</h4>
+    <p>{{ wordSizeResults.words }}</p>
+  </div>
+</div>

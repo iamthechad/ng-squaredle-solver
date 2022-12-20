@@ -13,8 +13,16 @@
             "allow": [],
             "depConstraints": [
               {
-                "sourceTag": "*",
-                "onlyDependOnLibsWithTags": ["*"]
+                "sourceTag": "scope:solver",
+                "onlyDependOnLibsWithTags": ["scope:solver-ui", "scope:solver-lib"]
+              },
+              {
+                "sourceTag": "scope:sover-ui",
+                "onlyDependOnLibsWithTags": ["scope:solver-ui", "scope:solver-lib"]
+              },
+              {
+                "sourceTag": "scope:solver-lib",
+                "onlyDependOnLibsWithTags": ["scope:solver-lib"]
               }
             ]
           }

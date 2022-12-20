@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@ng-squaredle-solver/solver-lib": ["libs/solver-lib/src/index.ts"],
+      "@ng-squaredle-solver/solver-ui": ["libs/solver-ui/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
