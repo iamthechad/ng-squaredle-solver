@@ -9,5 +9,4 @@ import {BoardComponent} from "@ng-squaredle-solver/solver-ui";
   imports: [BoardComponent]
 })
 export class AppComponent {
-  title = 'solver';
 }

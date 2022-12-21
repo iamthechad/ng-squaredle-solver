@@ -4,6 +4,9 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "parserOptions": {
+        "project": ["apps/solver-e2e/tsconfig.json"]
+      },
       "rules": {}
     },
     {

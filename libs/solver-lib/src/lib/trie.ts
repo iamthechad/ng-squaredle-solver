@@ -20,7 +20,7 @@ export class Trie implements Dictionary, DictionaryBuilder {
     }
   }
 
-  getWordRoot(): TrieNode {
+  public getWordRoot(): TrieNode {
     return this.root;
   }
 
@@ -32,6 +32,7 @@ export class Trie implements Dictionary, DictionaryBuilder {
       }
       currentNode = currentNode.getChild(letter);
     }
+
     return currentNode.endOfWord;
   }
 }

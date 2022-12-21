@@ -12,11 +12,9 @@ export class WordService implements Dictionary {
   private readonly dictionary = new Trie();
   constructor() {
     wordList.forEach(word => this.dictionary.addWord(word));
-    console.log('added words?', wordList.length);
-    console.log('trie', this.dictionary.getWordRoot());
   }
 
-  getWordRoot(): TrieNode {
+  public getWordRoot(): TrieNode {
     return this.dictionary.getWordRoot();
   }
 }

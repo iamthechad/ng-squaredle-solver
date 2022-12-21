@@ -26,6 +26,7 @@ export class TrieNode {
     if (node === undefined) {
       throw new Error('Need a real assertion here');
     }
+
     return node;
   }
 }

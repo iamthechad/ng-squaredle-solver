@@ -15,7 +15,7 @@ import {Board, BoardAnswers, WordService} from "@ng-squaredle-solver/solver-lib"
 })
 export class BoardComponent {
   protected readonly form: FormGroup<{
-    board: FormControl<string>
+    board: FormControl<string>;
   }>;
 
   protected boardAnswers: BoardAnswers | undefined;
@@ -27,7 +27,7 @@ export class BoardComponent {
     });
   }
 
-  protected getErrorMessage(): string {
+  protected get errorMessage(): string {
     return 'foo';
   }
 
