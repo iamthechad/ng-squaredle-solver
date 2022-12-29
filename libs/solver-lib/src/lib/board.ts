@@ -49,7 +49,6 @@ export class Board {
 
   private dfs(address: [number, number], wordSoFar: string, pathSoFar: Set<number>, trie: TrieNode) {
     const boardLetter = this.boardLetters[address[0]][address[1]];
-    //console.log('dfs', { address, wordSoFar, pathSoFar: new Set(pathSoFar), trie, boardLetter });
 
     // Check whether this letter makes a valid prefix
     if (!trie.hasChild(boardLetter)) {
@@ -66,12 +65,7 @@ export class Board {
     pathSoFar.add(this.encode(address));
 
     for (const nb of this.getNBs(address)) {
-      // For each neighbouring letter...
-
       if (!pathSoFar.has(this.encode(nb))) {
-        // If the nb is not in the path
-        //console.log(pathSoFar, nb)
-
         this.dfs(nb, updatedWord, pathSoFar, newTrie);
       }
     }

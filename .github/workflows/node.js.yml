@@ -1,0 +1,63 @@
+# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: Run lint
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint:ci
+  dev_build:
+    runs-on: ubuntu-latest
+    name: Dev build
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+  test:
+    runs-on: ubuntu-latest
+    name: Run tests
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run test:ci
+      - uses: actions/upload-artifact@v2
+        with:
+          name: coverage-info
+          path: coverage/lcov.info
+  aws_deploy:
+    runs-on: ubuntu-latest
+    name: Deploy to AWS
+    needs: [lint, dev_build, test]
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - run: npm ci
+      - run: npm run build:prod
+      - run: aws s3 sync ./dist/ s3://iamthechad.com/squaredle-solver --delete
