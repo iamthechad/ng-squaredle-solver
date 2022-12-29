@@ -57,10 +57,11 @@ jobs:
         run: npm run test:ci
       - name: Production Build
         run: npm run build:prod
-      - name: Deploy to AWS
+      - name: Prepare AWS
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+      - name: Deploy to AWS
         run: aws s3 sync ./dist/apps/solver s3://iamthechad.com/squaredle-solver --delete
