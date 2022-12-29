@@ -13,67 +13,54 @@ env:
   BASE_BRANCH: ${{ github.base_ref }}
 
 jobs:
-  lint:
+  pull-request:
     runs-on: ubuntu-latest
-    name: Run lint
+    if: ${{ github.event.name == 'pull_request' }}
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
         with:
-          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
-      - uses: actions/setup-node@v3
+      - name: Derive NX SHAs
+        uses: nrwl/nx-set-shas@v3
+      - name: Prepare Node
+        uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
-          cache: 'npm'
-      - uses: nrwl/nx-set-shas@v2
-      - run: npm ci
-      - run: npm run lint:ci
-  dev_build:
+          node-version: '16'
+      - name: Install Dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint:ci
+      - name: Ensure the build
+        run: npm run build:ci
+      - name: Run tests
+        run: npm run test:ci
+  main-deploy:
     runs-on: ubuntu-latest
-    name: Dev build
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
-          fetch-depth: 0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
-          cache: 'npm'
-      - uses: nrwl/nx-set-shas@v2
-      - run: npm ci
-      - run: npm run build
-  test:
-    runs-on: ubuntu-latest
-    name: Run tests
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
-          fetch-depth: 0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
-          cache: 'npm'
-      - uses: nrwl/nx-set-shas@v2
-      - run: npm ci
-      - run: npm run test:ci
-      - uses: actions/upload-artifact@v2
-        with:
-          name: coverage-info
-          path: coverage/lcov.info
-  aws_deploy:
-    runs-on: ubuntu-latest
-    name: Deploy to AWS
-    needs: [lint, dev_build, test]
     if: ${{ github.ref == 'refs/heads/main' }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: aws-actions/configure-aws-credentials@v1
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Derive NX SHAs
+        uses: nrwl/nx-set-shas@v3
+      - name: Prepare Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install Dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint:ci
+      - name: Run tests
+        run: npm run test:ci
+      - name: Production Build
+        run: npm run build:prod
+      - name: Deploy to AWS
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-      - run: npm ci
-      - run: npm run build:prod
-      - run: aws s3 sync ./dist/ s3://iamthechad.com/squaredle-solver --delete
+        run: aws s3 sync ./dist/apps/solver s3://iamthechad.com/squaredle-solver --delete
