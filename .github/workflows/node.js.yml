@@ -1,0 +1,67 @@
+# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+env:
+  BASE_BRANCH: ${{ github.base_ref }}
+
+jobs:
+  pull-request:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Derive NX SHAs
+        uses: nrwl/nx-set-shas@v3
+      - name: Prepare Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install Dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint:ci
+      - name: Ensure the build
+        run: npm run build:ci
+      - name: Run tests
+        run: npm run test:ci
+  main-deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Derive NX SHAs
+        uses: nrwl/nx-set-shas@v3
+      - name: Prepare Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install Dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint:ci
+      - name: Run tests
+        run: npm run test:ci
+      - name: Production Build
+        run: npm run build:prod
+      - name: Prepare AWS
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Deploy to AWS
+        run: aws s3 sync ./dist/apps/solver s3://iamthechad.com/squaredle-solver --delete

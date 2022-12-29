@@ -11,7 +11,11 @@
     "prepare": "husky install",
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "build:ci": "nx affected:build --parallel",
+    "build:prod": "nx build --prod",
+    "test": "nx affected:test --base=origin/main",
+    "test:all": "nx run-many --target=test --all",
+    "test:ci": "nx affected:test --parallel"
   },
   "private": true,
   "dependencies": {
