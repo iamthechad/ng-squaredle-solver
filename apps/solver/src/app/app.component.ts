@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AboutComponent, BoardComponent } from '@ng-squaredle-solver/solver-ui';
 
 @Component({
-  selector: 'ng-squaredle-solver-root',
+  selector: 'mt-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,

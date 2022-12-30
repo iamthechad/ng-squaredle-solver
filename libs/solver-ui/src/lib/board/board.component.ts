@@ -8,7 +8,7 @@ import { Board, BoardAnswers, WordService } from '@ng-squaredle-solver/solver-li
 import { validateBoardInput } from './validate-board-input';
 
 @Component({
-  selector: 'ng-squaredle-solver-board',
+  selector: 'mt-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
   standalone: true,
