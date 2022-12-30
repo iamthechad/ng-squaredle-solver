@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>What is this?</h1>
+<mat-dialog-content>
+  <p>This application is designed to help with solving Squaredle puzzles.</p>
+  <p>
+    Squaredle is a daily word puzzle that can be played here:
+    <a
+      href="https://squaredle.app/"
+      target="_blank"
+      rel="noopener noreferrer"
+      >https://squaredle.app/</a
+    >
+  </p>
+  <p>
+    This application is based very heavily on the existing solver at
+    <a
+      href="https://github.com/minoli-g/squaredle-solver"
+      target="_blank"
+      rel="noopener noreferrer"
+      >https://github.com/minoli-g/squaredle-solver</a
+    >. All of the actual logic to determine available words for a particular board originated from this project.
+  </p>
+  <p>
+    Based on the above logic, I created a new version that cleaned up a few minor issues I had with the original version. Thinking this might be a fun project to learn new things with, I'm using
+    Angular with Material for the UI. The project uses NX for the monorepo structure, GitHub Actions for CI build/deploy and is hosted on AWS using CloudFront.
+  </p>
+  <p>
+    If you're interested in the source, it can be found at
+    <a
+      href="https://github.com/iamthechad/ng-squaredle-solver"
+      target="_blank"
+      rel="noopener noreferrer"
+      >https://github.com/iamthechad/ng-squaredle-solver</a
+    >
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button
+    mat-flat-button
+    color="primary"
+    mat-dialog-close
+  >
+    OK
+  </button>
+</mat-dialog-actions>
