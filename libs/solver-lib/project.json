@@ -33,10 +33,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/solver-lib/**/*.ts",
-          "libs/solver-lib/**/*.html"
-        ]
+        "lintFilePatterns": ["libs/solver-lib/**/*.ts", "libs/solver-lib/**/*.html"]
       }
     }
   },

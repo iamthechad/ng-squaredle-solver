@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AboutDialogComponent } from './dialog/about-dialog.component';
 
 @Component({
-  selector: 'ng-squaredle-solver-about',
+  selector: 'mt-about',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
   standalone: true,

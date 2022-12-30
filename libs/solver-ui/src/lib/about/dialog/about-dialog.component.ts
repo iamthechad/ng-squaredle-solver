@@ -3,7 +3,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'ng-squaredle-solver-about-dialog',
+  selector: 'mt-about-dialog',
   templateUrl: './about-dialog.component.html',
   styleUrls: ['./about-dialog.component.scss'],
   standalone: true,

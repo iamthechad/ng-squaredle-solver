@@ -1,6 +1,6 @@
-import {TrieNode} from "./trie-node";
-import {Dictionary} from "./dictionary";
-import {DictionaryBuilder} from "./dictionary-builder";
+import { TrieNode } from './trie-node';
+import { Dictionary } from './dictionary';
+import { DictionaryBuilder } from './dictionary-builder';
 
 export class Trie implements Dictionary, DictionaryBuilder {
   private readonly root = new TrieNode();
@@ -16,7 +16,7 @@ export class Trie implements Dictionary, DictionaryBuilder {
 
       currentNode = currentNode.getChild(letter);
 
-      currentNode.endOfWord = (i === word.length - 1) ? true : currentNode.endOfWord;
+      currentNode.endOfWord = i === word.length - 1 ? true : currentNode.endOfWord;
     }
   }
 
