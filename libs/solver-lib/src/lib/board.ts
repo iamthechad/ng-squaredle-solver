@@ -1,6 +1,7 @@
 import { TrieNode } from './trie-node';
 import { Dictionary } from './dictionary';
 import { BoardAnswers, WordAnswers } from './board-answers';
+import { validateBoard } from './validate-board';
 
 export class Board {
   private readonly boardLetters: string[][];
@@ -8,12 +9,15 @@ export class Board {
   private readonly answers = new Set<string>();
 
   constructor(boardStr: string) {
-    this.validate(boardStr);
+    if (validateBoard(boardStr)) {
+      this.boardLetters = [];
+      this.rowCount = 0;
+    } else {
+      const boardRows = boardStr.split('-');
+      this.boardLetters = boardRows.map(row => row.split(''));
 
-    const boardRows = boardStr.split('-');
-    this.boardLetters = boardRows.map(row => row.split(''));
-
-    this.rowCount = boardRows.length;
+      this.rowCount = boardRows.length;
+    }
   }
 
   public buildAnswers(dictionary: Dictionary): BoardAnswers {
@@ -28,23 +32,6 @@ export class Board {
       answerCount: this.answers.size,
       wordSizeResults: this.buildWordResults(),
     };
-  }
-
-  public validate(boardStr: string): void {
-    // Split the string into individual rows
-    const boardRows = boardStr.split('-');
-
-    // Check whether each row has the same length
-    for (const item of boardRows) {
-      if (item.length !== boardRows.length) {
-        throw new Error('Board does not represent a square. Please re-check your input');
-      }
-    }
-
-    // Check whether the size is valid
-    if (boardRows.length < 3) {
-      throw new Error('Minimum board size is 3');
-    }
   }
 
   private dfs(address: [number, number], wordSoFar: string, pathSoFar: Set<number>, trie: TrieNode) {

@@ -3,18 +3,53 @@
 
 <p>Missing or faded squares can be represented by an @ symbol. Eg: <code>ab@-def-g@i</code></p>
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+>
   <mat-form-field appearance="fill">
-    <input matInput formControlName="board" required>
-    <mat-error *ngIf="form.controls.board.invalid">{{errorMessage}}</mat-error>
+    <input
+      matInput
+      spellcheck="false"
+      autocorrect="off"
+      autocomplete="off"
+      autocapitalize="off"
+      width="30"
+      formControlName="board"
+      required
+    />
+    <mat-error
+      class="mat-caption"
+      *ngIf="form.controls.board.errors?.['required']"
+      >Board value is required</mat-error
+    >
+    <mat-error
+      class="mat-caption"
+      *ngIf="form.controls.board.errors?.['invalid']"
+      >Board is not a square</mat-error
+    >
+    <mat-error
+      class="mat-caption"
+      *ngIf="form.controls.board.errors?.['size']"
+      >Minimum board size is 3</mat-error
+    >
   </mat-form-field>
 
-  <div class="submitButton"><button mat-flat-button color="primary" type="submit">Solve!</button></div>
-
+  <div class="submitButton">
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+    >
+      Solve!
+    </button>
+  </div>
 </form>
 
-<div class="results" *ngIf="boardAnswers">
+<div
+  class="results"
+  *ngIf="boardAnswers"
+>
   <h3>{{ boardAnswers.answerCount }} words</h3>
 
   <div *ngFor="let wordSizeResults of boardAnswers.wordSizeResults">
