@@ -54,6 +54,6 @@
 
   <div *ngFor="let wordSizeResults of boardAnswers.wordSizeResults">
     <h4>{{ wordSizeResults.wordLength }} letter words ({{ wordSizeResults.words.length }})</h4>
-    <p>{{ wordSizeResults.words }}</p>
+    <p>{{ wordSizeResults.words | mtArrayJoin }}</p>
   </div>
 </div>
