@@ -6,13 +6,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { Board, BoardAnswers, WordService } from '@ng-squaredle-solver/solver-lib';
 import { validateBoardInput } from './validate-board-input';
+import { ArrayJoinPipe } from './array-join.pipe';
 
 @Component({
   selector: 'mt-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
   standalone: true,
-  imports: [CommonModule, MatFormFieldModule, FormsModule, ReactiveFormsModule, MatInputModule, MatButtonModule],
+  imports: [CommonModule, MatFormFieldModule, FormsModule, ReactiveFormsModule, MatInputModule, MatButtonModule, ArrayJoinPipe],
 })
 export class BoardComponent {
   protected readonly form: FormGroup<{

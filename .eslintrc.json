@@ -89,7 +89,7 @@
         "@angular-eslint/pipe-prefix": [
           "error",
           {
-            "prefixes": ["nuvalence"]
+            "prefixes": ["mt"]
           }
         ],
         "@angular-eslint/prefer-output-readonly": "error",
