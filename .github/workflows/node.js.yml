@@ -34,7 +34,28 @@ jobs:
       - name: Ensure the build
         run: npm run build:ci
       - name: Run tests
-        run: npm run test:ci
+        run: npm run test:all -- --coverage
+      - name: SonarCloud App Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: apps/solver/
+      - name: SonarCloud Lib Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: libs/solver-lib
+      - name: SonarCloud Lib Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: libs/solver-ui
   main-deploy:
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -54,7 +75,7 @@ jobs:
       - name: Lint
         run: npm run lint:ci
       - name: Run tests
-        run: npm run test:ci
+        run: npm run test:all -- --coverage
       - name: Production Build
         run: npm run build:prod
       - name: Prepare AWS
@@ -65,3 +86,24 @@ jobs:
           aws-region: us-east-1
       - name: Deploy to AWS
         run: aws s3 sync ./dist/apps/solver s3://iamthechad.com/squaredle-solver --delete
+      - name: SonarCloud App Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: apps/solver/
+      - name: SonarCloud Lib Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: libs/solver-lib
+      - name: SonarCloud Lib Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: libs/solver-ui
