@@ -10,7 +10,7 @@ export default {
     },
   },
   coverageDirectory: './coverage',
-  coverageReporters: ['lcov', 'text'],
+  coverageReporters: [['lcov', { projectRoot: __dirname }], 'text'],
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
