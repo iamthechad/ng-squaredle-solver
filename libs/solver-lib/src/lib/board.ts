@@ -2,11 +2,22 @@ import { TrieNode } from './trie-node';
 import { Dictionary } from './dictionary';
 import { BoardAnswers, WordAnswers } from './board-answers';
 import { validateBoard } from './validate-board';
+import { assertIsDefined } from './assert-is-defined';
 
 export class Board {
+  private static readonly SURROUNDING_CELL_DIRS = [
+    [-1, -1],
+    [-1, 0],
+    [-1, 1],
+    [0, -1],
+    [0, 1],
+    [1, -1],
+    [1, 0],
+    [1, 1],
+  ];
+
   private readonly boardLetters: string[][];
   private readonly rowCount: number;
-  private readonly answers = new Set<string>();
 
   constructor(boardStr: string) {
     if (validateBoard(boardStr)) {
@@ -21,77 +32,68 @@ export class Board {
   }
 
   public buildAnswers(dictionary: Dictionary): BoardAnswers {
+    const answers = new Set<string>();
     for (let i = 0; i < this.rowCount; i++) {
       for (let j = 0; j < this.rowCount; j++) {
-        this.dfs([i, j], '', new Set<number>(), dictionary.getWordRoot());
+        const cellWords = this.findFromCell([i, j], '', new Set<number>(), dictionary.getWordRoot());
+        cellWords.forEach(answers.add, answers);
       }
     }
 
-    //console.log(this.answers);
-    return {
-      answerCount: this.answers.size,
-      wordSizeResults: this.buildWordResults(),
-    };
+    return this.buildWordResults(answers);
   }
 
-  private dfs(address: [number, number], wordSoFar: string, pathSoFar: Set<number>, trie: TrieNode) {
-    const boardLetter = this.boardLetters[address[0]][address[1]];
+  private findFromCell(cellAddress: [number, number], wordSoFar: string, pathSoFar: Set<number>, trie: TrieNode): Set<string> {
+    const cellWords = new Set<string>();
+    const boardLetter = this.boardLetters[cellAddress[0]][cellAddress[1]];
 
-    // Check whether this letter makes a valid prefix
-    if (!trie.hasChild(boardLetter)) {
-      return;
+    const nextTrie = trie.getChild(boardLetter);
+    if (!nextTrie) {
+      return cellWords;
     }
-    const newTrie = trie.getChild(boardLetter);
 
-    // Check whether this letter is EOW
     const updatedWord = `${wordSoFar}${boardLetter}`;
-    if (newTrie.endOfWord) {
-      this.answers.add(updatedWord);
+    if (nextTrie.endOfWord) {
+      cellWords.add(updatedWord);
     }
 
-    pathSoFar.add(this.encode(address));
+    const encodedCellLocation = this.encodeCellLocation(cellAddress);
+    pathSoFar.add(encodedCellLocation);
 
-    for (const nb of this.getNBs(address)) {
-      if (!pathSoFar.has(this.encode(nb))) {
-        this.dfs(nb, updatedWord, pathSoFar, newTrie);
+    for (const cell of this.getNearbyCells(cellAddress)) {
+      if (!pathSoFar.has(this.encodeCellLocation(cell))) {
+        const childCellWords = this.findFromCell(cell, updatedWord, pathSoFar, nextTrie);
+        childCellWords.forEach(cellWords.add, cellWords);
       }
     }
-    pathSoFar.delete(this.encode(address));
+    pathSoFar.delete(encodedCellLocation);
+
+    return cellWords;
   }
 
-  private encode(address: [number, number]): number {
+  private encodeCellLocation(address: [number, number]): number {
     return this.rowCount * address[0] + address[1] + 1;
   }
 
-  private getNBs(address: [number, number]): Array<[number, number]> {
-    const dirs = [
-      [-1, -1],
-      [-1, 0],
-      [-1, 1],
-      [0, -1],
-      [0, 1],
-      [1, -1],
-      [1, 0],
-      [1, 1],
-    ];
-    const arr: Array<[number, number]> = [];
+  private getNearbyCells(address: [number, number]): Array<[number, number]> {
+    const validNearbyCells: Array<[number, number]> = [];
 
-    for (const dir of dirs) {
+    for (const dir of Board.SURROUNDING_CELL_DIRS) {
       const x = address[0] + dir[0];
       const y = address[1] + dir[1];
 
       if (x >= 0 && x < this.rowCount && y >= 0 && y < this.rowCount) {
-        arr.push([x, y]);
+        validNearbyCells.push([x, y]);
       }
     }
 
-    return arr;
+    return validNearbyCells;
   }
 
-  private buildWordResults(): WordAnswers[] {
+  private buildWordResults(answers: Set<string>): BoardAnswers {
     const answerMap = new Map<number, WordAnswers>();
 
-    this.answers.forEach(answer => {
+    answers.forEach(answer => {
       if (!answerMap.has(answer.length)) {
         answerMap.set(answer.length, {
           wordLength: answer.length,
@@ -100,9 +102,7 @@ export class Board {
       }
 
       const wordAnswerEntry = answerMap.get(answer.length);
-      if (wordAnswerEntry === undefined) {
-        throw new Error('Need a real assertion here');
-      }
+      assertIsDefined(wordAnswerEntry);
 
       wordAnswerEntry.words.push(answer);
     });
@@ -112,6 +112,9 @@ export class Board {
 
     wordAnswers.forEach(answerSet => answerSet.words.sort());
 
-    return wordAnswers;
+    return {
+      answerCount: answers.size,
+      wordSizeResults: wordAnswers,
+    };
   }
 }
