@@ -1,5 +1,3 @@
-//import {assertIsDefined} from "./util";
-
 export class TrieNode {
   private readonly children = new Map<string, TrieNode>();
   private _endOfWord = false;
@@ -20,13 +18,7 @@ export class TrieNode {
     this.children.set(letter, new TrieNode());
   }
 
-  public getChild(letter: string): TrieNode {
-    const node = this.children.get(letter);
-    //assertIsDefined(node);
-    if (node === undefined) {
-      throw new Error('Need a real assertion here');
-    }
-
-    return node;
+  public getChild(letter: string): TrieNode | undefined {
+    return this.children.get(letter);
   }
 }
