@@ -34,7 +34,9 @@
           "apps/solver/src/assets"
         ],
         "styles": ["apps/solver/src/styles.scss"],
-        "scripts": []
+        "scripts": [],
+        "serviceWorker": true,
+        "ngswConfigPath": "ngsw-config.json"
       },
       "configurations": {
         "production": {
