@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
 import { WordService } from './word.service';
-import { Board, BoardAnswers } from '@ng-squaredle-solver/solver-lib';
+import { Board } from './board';
+import { BoardAnswers } from './board-answers';
 
 interface ExpectedWordResults {
   totaWords: number;
