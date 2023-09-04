@@ -1,12 +1,12 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx"],
+  "plugins": ["@nx"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
-        "@nrwl/nx/enforce-module-boundaries": [
+        "@nx/enforce-module-boundaries": [
           "error",
           {
             "enforceBuildableLibDependency": true,
@@ -31,12 +31,12 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript"],
+      "extends": ["plugin:@nx/typescript"],
       "rules": {}
     },
     {
       "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nrwl/nx/javascript"],
+      "extends": ["plugin:@nx/javascript"],
       "rules": {}
     },
     {
@@ -162,7 +162,6 @@
         "arrow-parens": ["error", "as-needed"],
         "block-spacing": "error",
         "brace-style": ["error", "1tbs"],
-        //"comma-dangle": ["error", "always-multiline"],
         "complexity": "error",
         "curly": ["error", "multi-line"],
         "import/no-default-export": "error",
@@ -220,7 +219,6 @@
             "alias": ["untilDestroyed"]
           }
         ],
-        //"sort-keys": "error",
         "space-in-parens": ["error", "never"],
         "unicorn/filename-case": "error",
         "yoda": "error"
@@ -231,12 +229,12 @@
       "files": ["*.html"],
       "plugins": ["@angular-eslint/eslint-plugin-template"],
       "rules": {
-        "@angular-eslint/template/accessibility-alt-text": "error",
         "@angular-eslint/template/cyclomatic-complexity": "error",
         "@angular-eslint/template/no-autofocus": "error",
         "@angular-eslint/template/no-call-expression": "error",
         "@angular-eslint/template/no-negated-async": "error",
-        "@angular-eslint/template/no-positive-tabindex": "error"
+        "@angular-eslint/template/no-positive-tabindex": "error",
+        "@angular-eslint/template/alt-text": "error"
       }
     }
   ]
