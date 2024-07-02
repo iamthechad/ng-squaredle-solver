@@ -4,22 +4,17 @@
   "projectType": "library",
   "sourceRoot": "libs/solver-ui/src",
   "prefix": "ng-squaredle-solver",
+  "tags": ["scope:solver-ui"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/solver-ui/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/solver-ui/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["libs/solver-ui/**/*.ts", "libs/solver-ui/**/*.html"]
-      }
+      "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": ["scope:solver-ui"]
+  }
 }

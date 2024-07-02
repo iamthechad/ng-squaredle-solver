@@ -1,11 +1,11 @@
 import { ApplicationConfig, importProvidersFrom, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 export const appConfig: ApplicationConfig = {
   providers: [
     BrowserModule,
-    BrowserAnimationsModule,
+    provideAnimations(),
     importProvidersFrom(
       ServiceWorkerModule.register('ngsw-worker.js', {
         enabled: !isDevMode(),
