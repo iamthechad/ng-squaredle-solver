@@ -10,7 +10,9 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/solver-ui/jest.config.ts"
+        "jestConfig": "libs/solver-ui/jest.config.ts",
+        "coverageDirectory": "{workspaceRoot}/coverage/{projectRoot}",
+        "coverageReporters": ["lcov", "text"]
       }
     },
     "lint": {
