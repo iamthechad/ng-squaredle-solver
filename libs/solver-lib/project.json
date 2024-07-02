@@ -4,13 +4,13 @@
   "projectType": "library",
   "sourceRoot": "libs/solver-lib/src",
   "prefix": "ng-squaredle-solver",
+  "tags": ["scope:solver-lib"],
   "targets": {
     "build": {
       "executor": "@nx/angular:ng-packagr-lite",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
-        "project": "libs/solver-lib/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": true
+        "project": "libs/solver-lib/ng-package.json"
       },
       "configurations": {
         "production": {
@@ -27,16 +27,12 @@
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "libs/solver-lib/jest.config.ts",
-        "passWithNoTests": true
+        "coverageDirectory": "{workspaceRoot}/coverage/{projectRoot}",
+        "coverageReporters": ["lcov", "text"]
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["libs/solver-lib/**/*.ts", "libs/solver-lib/**/*.html"]
-      }
+      "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": ["scope:solver-lib"]
+  }
 }
