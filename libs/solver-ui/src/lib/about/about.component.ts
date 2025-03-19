@@ -8,7 +8,6 @@ import { AboutDialogComponent } from './dialog/about-dialog.component';
   selector: 'mt-about',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
-  standalone: true,
   imports: [MatDialogModule, MatButtonModule, MatIconModule],
 })
 export class AboutComponent {
