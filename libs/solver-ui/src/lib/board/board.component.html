@@ -18,21 +18,15 @@
       formControlName="board"
       required
     />
-    <mat-error
-      class="mat-caption"
-      *ngIf="form.controls.board.errors?.['required']"
-      >Board value is required</mat-error
-    >
-    <mat-error
-      class="mat-caption"
-      *ngIf="form.controls.board.errors?.['invalid']"
-      >Board is not a square</mat-error
-    >
-    <mat-error
-      class="mat-caption"
-      *ngIf="form.controls.board.errors?.['size']"
-      >Minimum board size is 3</mat-error
-    >
+    @if (form.controls.board.errors?.['required']) {
+      <mat-error class="mat-caption">Board value is required</mat-error>
+    }
+    @if (form.controls.board.errors?.['invalid']) {
+      <mat-error class="mat-caption">Board is not a square</mat-error>
+    }
+    @if (form.controls.board.errors?.['size']) {
+      <mat-error class="mat-caption">Minimum board size is 3</mat-error>
+    }
   </mat-form-field>
 
   <div class="submitButton">
@@ -46,14 +40,15 @@
   </div>
 </form>
 
-<div
-  class="results"
-  *ngIf="boardAnswers"
->
-  <h3>{{ boardAnswers.answerCount }} words</h3>
+@if (boardAnswers) {
+  <div class="results">
+    <h3>{{ boardAnswers.answerCount }} words</h3>
 
-  <div *ngFor="let wordSizeResults of boardAnswers.wordSizeResults">
-    <h4>{{ wordSizeResults.wordLength }} letter words ({{ wordSizeResults.words.length }})</h4>
-    <p>{{ wordSizeResults.words | mtArrayJoin }}</p>
+    @for (wordSizeResults of boardAnswers.wordSizeResults; track wordSizeResults.words) {
+      <div>
+        <h4>{{ wordSizeResults.wordLength }} letter words ({{ wordSizeResults.words.length }})</h4>
+        <p>{{ wordSizeResults.words | mtArrayJoin }}</p>
+      </div>
+    }
   </div>
-</div>
+}

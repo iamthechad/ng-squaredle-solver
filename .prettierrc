@@ -2,6 +2,14 @@
   "arrowParens": "avoid",
   "bracketSpacing": true,
   "jsonRecursiveSort": true,
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "parser": "angular"
+      }
+    }
+  ],
   "printWidth": 200,
   "proseWrap": "never",
   "quoteProps": "consistent",
