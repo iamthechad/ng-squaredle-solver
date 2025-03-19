@@ -56,5 +56,6 @@
     }
   },
   "defaultProject": "solver",
-  "useInferencePlugins": false
+  "useInferencePlugins": false,
+  "useLegacyCache": true
 }

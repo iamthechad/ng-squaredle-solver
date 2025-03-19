@@ -6,7 +6,6 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'mt-about-dialog',
   templateUrl: './about-dialog.component.html',
   styleUrls: ['./about-dialog.component.scss'],
-  standalone: true,
   imports: [MatDialogModule, MatButtonModule],
 })
 export class AboutDialogComponent {}

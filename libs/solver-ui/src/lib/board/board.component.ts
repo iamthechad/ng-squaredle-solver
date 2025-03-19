@@ -12,7 +12,6 @@ import { ArrayJoinPipe } from './array-join.pipe';
   selector: 'mt-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
-  standalone: true,
   imports: [CommonModule, MatFormFieldModule, FormsModule, ReactiveFormsModule, MatInputModule, MatButtonModule, ArrayJoinPipe],
 })
 export class BoardComponent {
