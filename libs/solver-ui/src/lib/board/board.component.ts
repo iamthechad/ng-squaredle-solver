@@ -21,14 +21,13 @@ export class BoardComponent {
 
   protected boardAnswers: BoardAnswers | undefined;
 
-  constructor(nonNullableFormBuilder: NonNullableFormBuilder, private readonly wordService: WordService) {
+  constructor(
+    nonNullableFormBuilder: NonNullableFormBuilder,
+    private readonly wordService: WordService,
+  ) {
     this.form = nonNullableFormBuilder.group({
       board: nonNullableFormBuilder.control('', validateBoardInput),
     });
-  }
-
-  protected get errorMessage(): string {
-    return 'foo';
   }
 
   protected onSubmit(): void {
